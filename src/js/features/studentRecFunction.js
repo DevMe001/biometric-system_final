@@ -260,7 +260,7 @@ function studentMasterListMoveToArchive(data) {
 		if (result.isConfirmed) {
 			const dataRes = {
 				id: 'id',
-				selectedId: data.id,
+				selectedId: data.data.id,
 				table: 'student_record',
 				archiveName: 'student_record',
 			};

@@ -2157,58 +2157,64 @@ public function deleteTeacher($id){
 
   public function getReferenceNumber($ref_number){
 
+
+     
+
     $studentReq = $this->get('studentmasterlist', [], ['ref_number' => $ref_number], [':ref_number' => $ref_number]);
 
     $response = array();
 
-
-              $whereClause = array('student_id' => $studentReq['id']);
-              $bindParams = array(':student_id' => $studentReq['id']);
-              $getEnrollmentDate = $this->get('enrollment_records', ['yearLevel','date_enrolled'], $whereClause, $bindParams);
-
-             
-
-                // test this to check if  you want user enrolled next school year
-                // $dateNow = date_create(date('2025-02-02'));
-
-        if($getEnrollmentDate){
-          
-                  $getSchoolYear = $this->get('schoolyear', [], [], []);
-
-
-                
-                  // check if enrolled in the same year
-
-
-                    $getCurrentEnrollDate = date('Y-m-d', strtotime(($getEnrollmentDate['date_enrolled'])));
-                    $startDateStr = date('Y-m-d', strtotime(($getSchoolYear['start_date'])));
-                    $endDateStr = date('Y-m-d', strtotime(($getSchoolYear['end_date'])));
-
-
-
-                    $dateEnrolled = date_create($getCurrentEnrollDate);
-                    $startDate = date_create($startDateStr);
-                    $endDate = date_create($endDateStr);
-                    $dateNow = date_create(date('Y-m-d'));
-
-
-
-            if ($dateNow->format('Y-m-d') >= $startDate->format('Y-m-d') && $dateNow->format('Y-m-d') <= $endDate->format('Y-m-d') &&  $dateNow->format('Y-m-d')  <= $dateEnrolled->format('Y-m-d') ) {
-                $yearEnrolled = $getEnrollmentDate['yearLevel'];
-
-
-                $response = array(
-                'sucess' => false,
-                'message' => "Sorry! school year yet ended you are currently enrolled $yearEnrolled in this school year"
-              );
-
-              
-            }
-        }
-    else{
+   
       
 
-        if($studentReq){
+       
+    if($studentReq){
+
+
+
+      $whereClause = array('student_id' => $studentReq['id']);
+      $bindParams = array(':student_id' => $studentReq['id']);
+      $getEnrollmentDate = $this->get('enrollment_records', ['yearLevel', 'date_enrolled'], $whereClause, $bindParams);
+
+
+
+      // test this to check if  you want user enrolled next school year
+      // $dateNow = date_create(date('2025-02-02'));
+
+      if ($getEnrollmentDate) {
+
+        $getSchoolYear = $this->get('schoolyear', [], [], []);
+
+
+
+        // check if enrolled in the same year
+
+
+        $getCurrentEnrollDate = date('Y-m-d', strtotime(($getEnrollmentDate['date_enrolled'])));
+        $startDateStr = date('Y-m-d', strtotime(($getSchoolYear['start_date'])));
+        $endDateStr = date('Y-m-d', strtotime(($getSchoolYear['end_date'])));
+
+
+
+        $dateEnrolled = date_create($getCurrentEnrollDate);
+        $startDate = date_create($startDateStr);
+        $endDate = date_create($endDateStr);
+        $dateNow = date_create(date('Y-m-d'));
+
+
+
+        if ($dateNow->format('Y-m-d') >= $startDate->format('Y-m-d') && $dateNow->format('Y-m-d') <= $endDate->format('Y-m-d') && $dateNow->format('Y-m-d') <= $dateEnrolled->format('Y-m-d')) {
+          $yearEnrolled = $getEnrollmentDate['yearLevel'];
+
+
+          $response = array(
+            'sucess' => false,
+            'message' => "Sorry! school year yet ended you are currently enrolled $yearEnrolled in this school year"
+          );
+
+
+        }
+      }
 
           date_default_timezone_set('Asia/Manila');
 
@@ -2221,7 +2227,7 @@ public function deleteTeacher($id){
           $response = array('success' => false, 'message' => 'Reference number not found','data' => []);
 
         }
-    }
+    
  
     echo json_encode($response);
 
