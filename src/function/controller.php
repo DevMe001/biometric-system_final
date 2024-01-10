@@ -269,6 +269,13 @@ if(isset($_GET['action'])){
 
       break;
 
+    case 'updateStudentProfile':
+
+     $controller->updateStudentProfile($_POST);
+
+      break;
+
+      
 
     default:
     echo 'action not defined';

@@ -56,10 +56,10 @@ $getClassRec = $controller->getClassRecords();
         </label>
       </div>
       <!-- print -->
-      <div>
+      <!-- <div>
         <button id='classesPrint'
           class='btn outline outline-offset-2 outline-1  hover:bg-blue-500 hover:text-white px-5 py-2 text-indigo-400 rounded'>Print</button>
-      </div>
+      </div> -->
 
       <div id='onModalclassesToggle' data-modal-target="classes-modal" data-modal-toggle="classes-modal"
         class="rounded-full bg-[#19397D] text-white w-[50px] h-[50px] text-center align-middle">
@@ -85,7 +85,8 @@ $getClassRec = $controller->getClassRecords();
       </div> -->
 
     <table class="custom-table classes-table w-auto md:min-w-[37.5rem] lg:min-w-[100%] mx-auto mb-2 w-full">
-      <thead class='bg-[#19397D] text-white mx-auto'>
+   
+ <thead class='bg-[#19397D] text-white mx-auto'>
         <tr>
           <th class='p-2 text-left'>#</th>
           <th class='p-2 text-left'>Class name</th>
@@ -97,143 +98,92 @@ $getClassRec = $controller->getClassRecords();
           <th class='p-2 text-left'>Scheduled</th>
           <th class='p-2 text-left'>Year level</th>
           <th colspan="3" class='p-2 text-left'>Action</th>
-
+      
+        
           <!-- <th class='p-2 text-left'>Date created</th> -->
         </tr>
       </thead>
       <tbody>
 
 
-        <?php
+  <?php
 
-        if (count($getClassRec) > 0) {
-
-          foreach ($getClassRec as $keyClass => $class) {
+  foreach ($getClassRec as $keySub => $class) {
 
 
 
-            $classRecDb = json_encode(array('id' => $class['class_id'], 'name' => $class['class_name'], 'room_number' => $class['room_number'], 'teacherId' => $class['teacher_id'], 'section_id' => $class['sectionId'], 'subjectId' => $class['subjectId'], 'yearId' => $class['yearId'], 'timeofDay' => $class['timeofDay'], 'schedule' => $class['scheduled_time']));
+    $classRecDb = json_encode(array('id' => $class['class_id'], 'name' => $class['class_name'], 'room_number' => $class['room_number'], 'teacherId' => $class['teacher_id'], 'section_id' => $class['sectionId'], 'subjectId' => $class['subjectId'], 'yearId' => $class['yearId'], 'timeofDay' => $class['timeofDay'], 'schedule' => $class['scheduled_time']));
 
-            $classRecData = htmlspecialchars(str_replace('\\', '', $classRecDb));
+    $classRecData = htmlspecialchars(str_replace('\\', '', $classRecDb));
 
-            $deleted = $class['is_archive'];
+    $deleted = $class['is_archive'];
 
-            if($deleted == 0){
-              ?>
-                <tr>
+    if ($deleted == 0) {
+      ?>
+      <tr>
 
-              <td class='p-2'>
-                <?php echo $keyClass + 1 ?>
-                        </td>
-                        <td class='p-2'>
-                          <?php echo strtoupper($class['class_name']) ?>
-                        </td>
-                
-                        <td class='p-2'>
-                          <?php echo $class['sectionName'] ?>
-                        </td>
-                
-                        <td class='p-2'>
-                          <?php echo strtoupper($class['subjectName']) ?>
-                        </td>
-                        <td class='p-2'>
-                          <?php echo strtoupper($class['teacherName']) ?>
-                        </td>
-                
-                        <td class='p-2'>
-                          <?php echo $class['class_limit'] ?>
-                        </td>
-                        <td class='p-2'>
-                          <?php echo $class['room_number'] ?>
-                        </td>
-                        <td class='p-2'>
-                          <?php echo $class['scheduled_time'] ?>
-                        </td>
-                        <td class='p-2'>
-                          <?php echo $class['yearName'] ?>
-                        </td>
-                        <td onclick='editClass(<?php echo $classRecData; ?>)'
-                          class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="create-outline"></ion-icon></td>
-                        <td onclick='classMoveToArchive(<?php echo $classRecData; ?>)'
-                          class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="archive-outline"></ion-icon></td>
-                      </tr>
-              <?php
-            }
+        <td class='p-2'>
+          <?php echo $keySub + 1 ?>
+        </td>
+        <td class='p-2'>
+          <?php echo strtoupper($class['class_name']) ?>
+        </td>
 
-            ?>
+        <td class='p-2'>
+          <?php echo $class['sectionName'] ?>
+        </td>
 
-            
+        <td class='p-2'>
+          <?php echo strtoupper($class['subjectName']) ?>
+        </td>
+        <td class='p-2'>
+          <?php echo strtoupper($class['teacherName']) ?>
+        </td>
 
-            <!-- create center no match found -->
-            <tr id='classesNoResult' class='hidden'>
-              <td colspan='10' class='text-center text-gray-500'>No match found</td>
-
-              <?php
-          }
-          # code...
-        } else {
-          ?>
-
-            <!-- create center no match found -->
-          <tr id='classesNoResult' class='hidden'>
-            <td colspan='10' class='text-center text-gray-500'>No match found</td>
-          </tr>
-            <?php
-        }
+        <td class='p-2'>
+          <?php echo $class['class_limit'] ?>
+        </td>
+        <td class='p-2'>
+          <?php echo $class['room_number'] ?>
+        </td>
+        <td class='p-2'>
+          <?php echo $class['scheduled_time'] ?>
+        </td>
+        <td class='p-2'>
+          <?php echo $class['yearName'] ?>
+        </td>
+        <td onclick='editClass(<?php echo $classRecData; ?>)'
+          class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="create-outline"></ion-icon>
+        </td>
+        <td onclick='classMoveToArchive(<?php echo $classRecData; ?>)'
+          class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="archive-outline"></ion-icon>
+        </td>
+      </tr>
+      <?php
+    }
+    ?>
 
 
-        ?>
+    <?php
+    # code...
+  }
 
 
-      </tbody>
+  ?>
 
+
+  <!-- create center no match found -->
+  <tr id='classesNoResult' class='hidden'>
+    <td colspan='11' class='text-center text-gray-500'>No match found</td>
+  </tr>
+</tbody>
 
 
     </table>
 
     <!-- printing code -->
 
-    <table class="classes-printable printable w-auto md:min-w-[37.5rem] lg:min-w-[40rem] mx-auto mb-2 hidden">
-      <thead class='bg-[#19397D] text-white mx-auto'>
-        <tr>
-          <th class='p-2 text-left'>#</th>
-          <th class='p-2 text-left'>Subject Name</th>
-          <!-- <th class='p-2 text-left'>Date created</th> -->
-        </tr>
-      </thead>
-      <tbody>
 
-        <?php
-
-
-        foreach ($getClassRec as $keyClass => $class) {
-
-
-
-          $classRecDb = json_encode($class);
-
-          $classRecData = htmlspecialchars(str_replace('\\', '', $classRecDb));
-
-          ?>
-
-          <tr>
-
-            <td class='p-2'>
-              <?php echo $keyClass + 1 ?>
-            </td>
-            <td class='p-2'>
-              <?php echo $class['name'] ?>
-            </td>
-          </tr>
-          <?php
-          # code...
-        }
-
-        ?>
-
-      </tbody>
-
-    </table>
 
     <!-- end printing code -->
 
@@ -575,14 +525,7 @@ $getClassRec = $controller->getClassRecords();
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
-<!-- <script>
-  var scriptElement = document.querySelector("script[src='']");
-  if (!scriptElement) {
-    var newScript = document.createElement('script');
-    newScript.src = '<?php echo baseUrlScriptSrc('/js/features/tableFunction.js') ?>';
-    document.head.appendChild(newScript);
-  }
-</script> -->
+
 <script src='<?php echo baseUrlScriptSrc('/js/features/httpFunction.js') ?>'></script>
 
 

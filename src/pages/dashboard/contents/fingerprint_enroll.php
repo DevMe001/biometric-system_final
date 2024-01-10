@@ -179,54 +179,65 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
     <table class="fingerprint-printable printable w-auto md:min-w-[37.5rem] lg:min-w-[40rem] mx-auto mb-2 hidden">
       <thead class='bg-[#19397D] text-white mx-auto'>
         <tr>
-          <th class='p-2 text-left'>Lrn</th>
-          <th class='p-2 text-left'>Name</th>
-          <th class='p-2 text-left'>Profile</th>
-          <th class='p-2 text-left'>Gender</th>
-          <th class='p-2 text-left'>Age</th>
-          <th class='p-2 text-left'>Birthdate</th>
-          <th class='p-2 text-left'>Address</th>
-          <th class='p-2 text-left'>Gen.Ave</th>
+           <th class='p-2 text-left'>#</th>
+          <th class='p-2 text-left'>LRN</th>
+          <th class='p-2 text-left'>Fingerprint</th>
+          <th class='p-2 text-left'>Date</th>
           <!-- <th class='p-2 text-left'>Date created</th> -->
         </tr>
       </thead>
       <tbody>
 
-        <?php
-
-        foreach ($getfingerprintRecord as $keyList => $fingerprint) {
-
+       <?php
+           foreach ($getfingerprintRecord as $keyList => $fingerprint) {
 
 
 
+    $attRec = json_encode($fingerprint);
+
+    $fingerprintData = htmlspecialchars(str_replace('\\', '', $attRec));
+
+        $deleted = $fingerprint['is_archive'];
+
+
+        if($deleted == 0){
           ?>
+
           <tr>
-          
             <td class='p-2'>
           <?php echo $keyList + 1 ?>
-            </td>
-            <td class='p-2'>
-              <?php echo $fingerprint['attendance_id'] ?>
-            </td>
-            <td class='p-2'>
-              <?php echo $fingerprint['lrn'] ?>
-            </td>
-            <td class='p-2'>
-              <?php echo $fingerprint['date_created'] ?>
-            </td>
-          
-            <td onclick='editfingerprint(<?php echo $fingerprintData; ?>)'
-              class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="create-outline"></ion-icon></td>
-            <td onclick='moveToArchive(<?php echo $fingerprintData; ?>)'
-              class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="trash-outline"></ion-icon></td>
-            </tr>
+                </td>
+                <td class='p-2'>
+                  <?php echo $fingerprint['lrn'] ?>
+                </td>
+                <td class='p-2'>
+                  <span style='display: inline-block; width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>
+                    <?php echo $fingerprint['fingerscan'] ?>
+                  </span>
+                </td>
+                <td class='p-2'>
+                  <?php echo $fingerprint['date_created'] ?>
+                </td>
+        
+              
+              </tr>
+     <?php
+
+        }else{
+          ?>
+           
+        <tr id='fingerprintNoResult' class='hidden'>
+          <td colspan='4' class='text-center text-gray-500'>No match found</td>
           <?php
-          # code...
         }
+    ?>
 
+  
+            <!-- create center no match found -->
+      
 
-        ?>
-
+      <?php
+      }?>
       </tbody>
 
     </table>

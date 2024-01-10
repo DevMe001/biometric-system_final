@@ -47,13 +47,13 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
       <!-- search -->
       <div class="search focus:outline focus:outline-offset-2 focus:outline-1 focus:outline-blue-500 focus:rounded">
         <label>
-          <input id='attendanceSearchEl' type="text" placeholder="Search here">
+          <input id='teacherAttendanceSearchEl' type="text" placeholder="Search here">
           <ion-icon name="search-outline"></ion-icon>
         </label>
       </div>
       <!-- print -->
       <div>
-        <button id='attendancePrint'
+        <button id='teacherAttendancePrint'
           class='btn outline outline-offset-2 outline-1  hover:bg-blue-500 hover:text-white px-5 py-2 text-indigo-400 rounded'>Print</button>
       </div>
 
@@ -74,7 +74,7 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
        </div>
       </div> -->
 
-    <table class="custom-table attendance-table w-auto md:min-w-[37.5rem] lg:min-w-[100%] mx-auto mb-2">
+    <table class="custom-table teacherAttendance-table w-auto md:min-w-[37.5rem] lg:min-w-[100%] mx-auto mb-2">
       <thead class='bg-[#5667B2] text-white mx-auto'>
         <tr>
           <th class='p-2 text-left'>#</th>
@@ -142,8 +142,8 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
           </tr>
             <!-- create center no match found -->
        
-        <tr id='attendanceNoResult' class='hidden'>
-          <td colspan='4' class='text-center text-gray-500'>No match found</td>
+        <tr id='teacherAttendanceNoResult' class='hidden'>
+          <td colspan='11' class='text-center text-gray-500'>No match found</td>
 
       <?php
   }
@@ -153,8 +153,8 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
 
 
    <!-- create center no match found -->
-        <tr id='attendanceNoResult'>
-          <td colspan='4' class='text-center text-gray-500'>No match found</td>
+        <tr id='teacherAttendanceNoResult'>
+          <td colspan='11' class='text-center text-gray-500'>No match found</td>
     <?php
 }
 
@@ -175,13 +175,16 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
 
     <!-- printing code -->
 
-    <table class="attendance-printable printable w-auto md:min-w-[37.5rem] lg:min-w-[40rem] mx-auto mb-2 hidden">
+    <table class="teacherAttendance-printable printable w-auto md:min-w-[37.5rem] lg:min-w-[40rem] mx-auto mb-2 hidden">
       <thead class='bg-[#19397D] text-white mx-auto'>
         <tr>
-             <th class='p-2 text-left'>#</th>
+            <th class='p-2 text-left'>#</th>
           <th class='p-2 text-left'>LRN</th>
+          <th class='p-2 text-left'>Class Name</th>
           <th class='p-2 text-left'>Clock type</th>
+          <th class='p-2 text-left'>Time</th>
           <th class='p-2 text-left'>Date</th>
+        
           
           <!-- <th class='p-2 text-left'>Date created</th> -->
         </tr>
@@ -189,33 +192,42 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
       <tbody>
 
         <?php
-
         foreach ($getAttendanceList as $keyList => $attendance) {
 
+          $clock = $attendance['clockType'] == 1 ? 'Clock in' : 'Clock out';
+
+          $clockSet = new DateTime($attendance['date_created']);
+          $clockTime = $clockSet->format('h:i A');
+          $clockDate = $date = date('F d, Y', strtotime($attendance['date_created']));
+
+          $attRec = json_encode([$attendance, $clockTime, $clockDate]);
+
+          $attendanceData = htmlspecialchars(str_replace('\\', '', $attRec));
 
 
 
           ?>
           <tr>
-          
-            <td class='p-2'>
+              <td class='p-2'>
           <?php echo $keyList + 1 ?>
-            </td>
-            <td class='p-2'>
-              <?php echo $attendance['attendance_id'] ?>
-            </td>
-            <td class='p-2'>
-              <?php echo $attendance['lrn'] ?>
-            </td>
-            <td class='p-2'>
-              <?php echo $attendance['date_created'] ?>
-            </td>
-          
-            <td onclick='editattendance(<?php echo $attendanceData; ?>)'
-              class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="create-outline"></ion-icon></td>
-            <td onclick='deleteattendance(<?php echo $attendanceData; ?>)'
-              class='p-2 cursor-pointer hover:bg-bg-white hover:text-indigo-600'><ion-icon name="trash-outline"></ion-icon></td>
-            </tr>
+                </td>
+                <td class='p-2'>
+                  <?php echo $attendance['lrn'] ?>
+                </td>
+                <td class='p-2'>
+                  <?php echo $attendance['class_name'] ?>
+                </td>
+                <td class='p-2'>
+                  <?php echo $clock ?>
+                </td>
+                <td class='p-2'>
+                  <?php echo $clockTime ?>
+                </td>
+              
+                <td class='p-2'>
+                  <?php echo $clockDate ?>
+                </td>
+              </tr>
           <?php
           # code...
         }
@@ -233,12 +245,12 @@ $getStudentEnrolledName = $controller->getEnrolleUserName();
     <div class='flex justify-end gap-2 pr-5 items-center'>
 
       <span>
-        <button onclick='prevBtn(".attendance-table")'
+        <button onclick='prevBtn(".teacherAttendance-table")'
           class='prev btn btn-blue-500 p-2 text-gray-500 rounded'>Prev</button>
       </span>
       <span> |</span>
       <span>
-        <button onclick='nextBtn(".attendance-table","attendanceNoResult")'
+        <button onclick='nextBtn(".teacherAttendance-table","teacherAttendanceNoResult")'
           class='next btn btn-blue-500 p-2 text-gray-500 rounded'>Next</button>
       </span>
       </dv>
@@ -596,4 +608,4 @@ $('.backOnTableDefault').on('click',function(){
 <!-- <script src='<?php echo baseUrlScriptSrc('/js/features/intermidiate.js') ?>'></script> -->
 
 
-<script src='<?php echo baseUrlScriptSrc('/js/features/attendanceFunction.js') ?>'></script>
+<script src='<?php echo baseUrlScriptSrc('/js/features/teacherAttendanceFunction.js') ?>'></script>

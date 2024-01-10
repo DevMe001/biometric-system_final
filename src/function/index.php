@@ -2292,6 +2292,7 @@ public function deleteTeacher($id){
   {
     $req = json_decode($post['data'], true);
 
+    
 
     $reqDetails = array(
       'archive_name' => $req['archiveName'],
@@ -2547,7 +2548,61 @@ public function editProfileDocuments($files,$post){
 
   }
 
+
+  public function updateStudentProfile($post)
+  {
+  
+
+    if ($_FILES['updatedFile']['name'] != '') {
+
+      $profileDir = '../images/uploads/profile/';
+      $newProfile = 'profile' . $post['lrn'];
+
+       $fileToDelete = $profileDir . $post['oldProfileName']; // Specify the file to delete
+
+
+
+
+      if (file_exists($fileToDelete)) {
+        unlink($fileToDelete);
+      }
+
+
+
+      handleFileUploadwithRename($_FILES['updatedFile'], $profileDir, $newProfile);
+
+
+      
+      $profileNewName = $newProfile. '.' . pathinfo($_FILES['updatedFile']['name'], PATHINFO_EXTENSION);
+
+
+      $studentWhere = array('id' => $post['id']);
+      $studentField = array('profile' => $profileNewName);
+
+      $updateReq = $this->updateReqValid('student_record',$studentField,$studentWhere);
+
+      if($updateReq){
+          $response = array('success' => true, 'message' => 'Profile uploaded successfully');
+      }else{
+        $response = array('success' => false, 'message' => 'Profile is not uploaded');
+
+      }
+      
+
+    }else{
+      $response = array('success' => false, 'message' => 'Profile is not uploaded');
+
+    }
+
+
+     echo json_encode($response);
+
+  }
+
 }
+
+
+
 
 
 

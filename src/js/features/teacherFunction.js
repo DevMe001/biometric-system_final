@@ -48,9 +48,6 @@ $('#' + teacherPrint).on('click', (e) => {
 });
 
 function editteacher(data) {
-	modal = 'edit';
-
-
 
 	console.log(data,'get data');
 	// console.log(data);
@@ -84,7 +81,7 @@ function editteacher(data) {
 
 	// const resultWithDoubleQuotes = data.subjectChosenId.replace(/'/g, '"');
 
-	// // Parse the string into a JavaScript array of objects
+	// Parse the string into a JavaScript array of objects
 	// const parsedResult = JSON.parse(resultWithDoubleQuotes);
 
 
@@ -135,10 +132,10 @@ function editteacher(data) {
 	//  let removeButton = $('<label for="teacherYearLevel"><button   type="button" class="removeSubject btn bg-blue-600 text-white px-5 py-2 rounded">-</button></label>');
 
 	// 	subjectBtn.append(removeButton);
-	// 	// Add a "Remove" button to the initial subjectItem
+		// Add a "Remove" button to the initial subjectItem
 	
-	// 	// Append the cloned item to the container
-	// 	subjectContainer.append(subjectItem);
+		// Append the cloned item to the container
+		// subjectContainer.append(subjectItem);
 //  });
 
 

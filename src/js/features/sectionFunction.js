@@ -74,7 +74,6 @@ $('#sectionCloseModal').on('click',function(){
 });
 
 function editSection(data) {
-	modal = 'edit';
 
 	$('#sectionBtn').text('Update');
 	$('#sectionTitle').text('Update section');

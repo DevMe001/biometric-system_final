@@ -1,5 +1,5 @@
 const classesTable = '.classes-table';
-const classesNoTesult = 'classesNoResult';
+const classesNoResult = 'classesNoResult';
 
 // menu
 const classesMenu = '#classesDropdownMenu';
@@ -15,8 +15,8 @@ const classesPrint = 'classesPrint';
 const classesPageArea = '.classes-printable';
 
 // getMenu(classesMenu, classesTable);
-showPage(classesTable, classesNoTesult);
-// tableSorting(classesMenu, classesTable, classesNoTesult);
+showPage(classesTable, classesNoResult);
+// tableSorting(classesMenu, classesTable, classesNoResult);
 
 let classesSearchEl = document.getElementById(classesSearchId);
 
@@ -25,7 +25,15 @@ classesSearchEl.addEventListener('keyup', (e) => {
 
 	console.log(searchValue, 'get value');
 
-	filterTable(classesTable, classesNoTesult, searchValue);
+
+
+	if (searchValue.length > 0) {
+			filterTable(classesTable, classesNoResult, searchValue);
+
+	} else {
+		$('#' + classesNoResult).addClass('hidden');
+		showPage(classesTable, classesNoResult);
+	}
 });
 
 $('#' + classesPrint).on('click', (e) => {
@@ -55,7 +63,7 @@ $('#classesCloseModal').on('click', function () {
 });
 
 function editClass(data) {
-	modal = 'edit';
+	// modal = 'edit';
 
 	console.log(data);
 

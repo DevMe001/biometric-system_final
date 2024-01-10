@@ -17,15 +17,15 @@ let searchTerms = document.getElementById('yearSearch');
 
 
 	// dropdown menu
-	let dropdown = document.getElementById('yrMenu');
-	let dropdownButton = document.getElementById('yearDropdownBtn');
+	// let dropdown = document.getElementById('yrMenu');
+	// let dropdownButton = document.getElementById('yearDropdownBtn');
 
-	dropdownButton.addEventListener('click', () => {
-		dropdown.classList.toggle('hidden');
-	});
+	// dropdownButton.addEventListener('click', () => {
+	// 	dropdown.classList.toggle('hidden');
+	// });
 
-	// dropdown menu
-	let dropdownLi = document.querySelectorAll(`${yrMenu} ul li`);
+	// // dropdown menu
+	// let dropdownLi = document.querySelectorAll(`${yrMenu} ul li`);
 
 
 
@@ -74,7 +74,6 @@ $('#onModalYearToggle').on('click', function () {
 
 // end YEAR LEVEL
 
-let modal = '';
 
 // cta call to action
 
@@ -162,7 +161,7 @@ function yearMoveToArchive(data) {
 }
 
 function editYrlLevel(data) {
-	modal = 'edit';
+
 
 	console.log(data);
 

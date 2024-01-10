@@ -248,6 +248,7 @@ function deleteStudentRec(data) {
 
 
 function studentMasterListMoveToArchive(data) {
+
 	Swal.fire({
 		title: 'Are you sure?',
 		text: 'You want to move the file to archive',
@@ -258,6 +259,10 @@ function studentMasterListMoveToArchive(data) {
 		confirmButtonText: 'Yes, move it!',
 	}).then((result) => {
 		if (result.isConfirmed) {
+
+
+
+
 			const dataRes = {
 				id: 'id',
 				selectedId: data.data.id,
@@ -866,11 +871,119 @@ $('#profile').on('change',function(e){
 
 	let file  = e.target.files[0];
 
-		filePreviHandler('#previewImgDiv',file,'.default-img');
+filePreviHandler('#previewImgDiv',file,'.default-img');
+
+
 
 	
 
 	});
+
+
+
+function onUpdateProfile(e,data) {
+
+		
+	let file = e.target.files[0];
+
+const responseData = data.data;
+
+	validateUplaodFile(responseData, file, (data, file) => {
+		const imageFile = file;
+		const img = new Image();
+		const canvas = document.createElement('canvas');
+		const ctx = canvas.getContext('2d');
+		const ctv = URL.createObjectURL(imageFile);
+
+		img.src = ctv;
+
+		img.onload = async () => {
+			canvas.width = img.width;
+			canvas.height = img.height;
+			ctx.drawImage(img, 0, 0, img.width, img.height);
+
+			const MODEL_URL = 'src/js/weights';
+			// Load the face-api.js models
+			await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
+			await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+			await faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL);
+
+			const faceDetectionOptions = new faceapi.TinyFaceDetectorOptions();
+			const detections = await faceapi.detectAllFaces(canvas, faceDetectionOptions).withFaceLandmarks().withFaceDescriptors();
+
+			// Handle Blob URL errors
+			img.onerror = () => {
+				Swal.fire({
+					icon: 'error',
+					text: 'Face verification denied',
+					title: 'Failed to upload image',
+					footer: null,
+				});
+			};
+
+			console.log('get detection', detections.length);
+
+			if (detections.length > 0) {
+				const formData = new FormData();
+				formData.append('id', data.id);
+				formData.append('oldProfileName', data.profile);
+				formData.append('lrn', data.lrn);
+				formData.append('updatedFile', file);
+
+				httpResFormData('updateStudentProfile', formData, (res) => {
+					if (res.success) {
+						location.href = `?page=dashboard`;
+						localStorage.setItem('data', JSON.stringify({ id: '#tab1', action: 'update', message: res.message }));
+					} else {
+						Swal.fire({
+							icon: 'error',
+							title: 'Forbidden Request',
+							text: res.message,
+							footer: null,
+						});
+					}
+				});
+			} else {
+				Swal.fire({
+					icon: 'error',
+					text: 'Face verification denied',
+					title: 'Upload consise,clear face image',
+					footer: null,
+				});
+			}
+		};
+	});
+
+
+
+			
+}
+
+
+
+function validateUplaodFile(old,file,cb){
+	
+		if (file.size > 1048576) {
+			Swal.fire({
+				icon: 'error',
+				title: 'File is not supported',
+				text: 'File size is less than 1Mb',
+				footer: null,
+			});
+		} else {
+			if (file.type.startsWith('image')) {
+				console.log('ok begin uploads');
+				cb(old,file);
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: 'File is not supported',
+					text: 'Only images allowed',
+					footer: null,
+				});
+			}
+		}
+}
 	
 
 	function filePreviHandler(id,file,defaultHide){
@@ -973,6 +1086,8 @@ function faceDetector(id, file, defaultHide) {
 				img.onload = () => {
 					URL.revokeObjectURL(ctvUrl);
 				};
+
+				
 			}, 3000);
 		} else {
 			// Handle the case where no faces are detected
@@ -2700,8 +2815,12 @@ $('#editMasterForm').submit(function (e) {
 
 
 
-
 });
+
+
+
+
+
 
 }
 

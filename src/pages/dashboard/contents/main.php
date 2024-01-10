@@ -185,19 +185,7 @@ $endDate = $getSchoolYear['end_date'];
       
         
   
-          <div data-tabIndex='#tab5' class="card">
-            <div>
-              <div class="numbers">
-                <?php echo $countStudentPerTeacher ?>
-              </div>
-              <div class="cardName">Student Class Record</div>
-            </div>
-      
-            <div class="iconBx">
-              <ion-icon name="folder-open-outline"></ion-icon>
-            </div>
-          </div>
-      
+        
          
 
           <div data-tabIndex='#tab8' class="card">

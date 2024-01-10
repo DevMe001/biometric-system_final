@@ -202,9 +202,13 @@ function nextBtn(table, noResult) {
 		});
 
 		if (found) {
-			notFound.classList.add('hidden');
+			if(noResult != ''){
+					notFound.classList.add('hidden');
+			}
 		} else {
-			notFound.classList.remove('hidden');
+			if(noResult != ''){
+					notFound.classList.remove('hidden');
+			}
 		}
 	}
 

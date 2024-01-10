@@ -1,48 +1,46 @@
-const subjectTable = '.subject-table';
-const subjectNoTesult = 'subjectNoResult';
+const classSubjectTable = '.classSubject-table';
+const classSubjectNoTesult = 'classSubjectNoResult';
 
 // menu
-const subjectMenu = '#subjectDropdownMenu';
-const subjectDropdownBtn = '#subjectDropdownBtn';
+const classSubjectMenu = '#classSubjectDropdownMenu';
+const classSubjectDropdownBtn = '#classSubjectDropdownBtn';
 
 // filter
-const subjectSearchId = 'subjectSearchEl';
-const subjectToggle = '#onModalsubjectToggle';
+const classSubjectSearchId = 'classSubjectSearchEl';
+const classSubjectToggle = '#onModalclassSubjectToggle';
 
 // search
 
-const subjectPrint = 'subjectPrint';
-const subjectPageArea = '.subject-printable';
+const classSubjectPrint = 'classSubjectPrint';
+const classSubjectPageArea = '.classSubject-printable';
 
-// getMenu(subjectMenu, subjectTable);
+// getMenu(classSubjectMenu, classSubjectTable);
 document.addEventListener('DOMContentLoaded', function () {
-	showPage(subjectTable, subjectNoTesult);
+	showPage(classSubjectTable, classSubjectNoTesult);
 });
 
+// tableSorting(classSubjectMenu, classSubjectTable, classSubjectNoTesult);
 
-// tableSorting(subjectMenu, subjectTable, subjectNoTesult);
+let classSubjectSearchEl = document.getElementById(classSubjectSearchId);
 
-let subjectSearchEl = document.getElementById(subjectSearchId);
-
-subjectSearchEl.addEventListener('keyup', (e) => {
+classSubjectSearchEl.addEventListener('keyup', (e) => {
 	let searchValue = e.target.value.toLowerCase();
 
 	console.log(searchValue, 'get value');
 
-	if(searchValue.length > 0){
-			filterTable(subjectTable, subjectNoTesult, searchValue);
-	}else{
-		$('#' + subjectNoTesult).addClass('hidden');
-		showPage(subjectTable, subjectNoTesult);
+	if (searchValue.length > 0) {
+		filterTable(classSubjectTable, classSubjectNoTesult, searchValue);
+	} else {
+		$('#' + classSubjectNoTesult).addClass('hidden');
+		showPage(classSubjectTable, classSubjectNoTesult);
 	}
-
 });
 
-$('#' + subjectPrint).on('click', (e) => {
+$('#' + classSubjectPrint).on('click', (e) => {
 	$('.custom-table').addClass('hidden');
-	$(subjectPageArea).removeClass('hidden');
+	$(classSubjectPageArea).removeClass('hidden');
 
-	$(subjectPageArea).print({
+	$(classSubjectPageArea).print({
 		addGlobalStyles: true,
 		stylesheet: null,
 		rejectWindow: true,
@@ -52,39 +50,32 @@ $('#' + subjectPrint).on('click', (e) => {
 		prepend: null,
 		deferred: $.Deferred().done(function () {
 			$('.custom-table').removeClass('hidden');
-			$(subjectPageArea).addClass('hidden');
+			$(classSubjectPageArea).addClass('hidden');
 		}),
 	});
 });
 
-$('#subjectCloseModal').on('click', function () {
-	 $('#subjectName').val('');
-	 	localStorage.removeItem('modify');
-		 $('#subjectForm')[0].reset();
-
+$('#classSubjectCloseModal').on('click', function () {
+	$('#classSubjectName').val('');
+	localStorage.removeItem('modify');
+	$('#classSubjectForm')[0].reset();
 });
 
-
-
-
-function editsubject(data) {
+function editclassSubject(data) {
 	// modal = 'edit';
 
 	console.log(data);
 
-	$('#subjectTitle').text('Update a');
+	$('#classSubjectTitle').text('Update a');
 	$('#subjecBtn').text('Update');
-	$('#subjectName').val(data.name);
-	$('#subject_id').val(data.id);
-;
-	$(subjectToggle).click();
+	$('#classSubjectName').val(data.name);
+	$('#classSubject_id').val(data.id);
+	$(classSubjectToggle).click();
 
-	localStorage.setItem('modify',JSON.stringify(true));
-
-
+	localStorage.setItem('modify', JSON.stringify(true));
 }
 
-function deletesubject(data) {
+function deleteclassSubject(data) {
 	const id = data.id;
 
 	Swal.fire({
@@ -100,10 +91,10 @@ function deletesubject(data) {
 			// req
 
 			const dataRes = {
-				subject_id: data.id,
+				classSubject_id: data.id,
 			};
 
-			httpJSONReq('deleteSubject', dataRes, (res) => {
+			httpJSONReq('deleteclassSubject', dataRes, (res) => {
 				if (res.success) {
 					localStorage.removeItem('modify');
 					location.href = '?page=dashboard';
@@ -117,17 +108,11 @@ function deletesubject(data) {
 					});
 				}
 			});
-
-
-	
 		}
 	});
 }
 
-
-
-
-function subjectMoveToArchive(data) {
+function classSubjectMoveToArchive(data) {
 	Swal.fire({
 		title: 'Are you sure?',
 		text: 'You want to move the file to archive',
@@ -141,8 +126,8 @@ function subjectMoveToArchive(data) {
 			const dataRes = {
 				id: 'id',
 				selectedId: data.id,
-				table: 'subject',
-				archiveName: 'subject',
+				table: 'classSubject',
+				archiveName: 'classSubject',
 			};
 
 			httpJSONReq('moveToArchive', dataRes, (res) => {
@@ -161,42 +146,36 @@ function subjectMoveToArchive(data) {
 	});
 }
 
-
-
-$(document).ready(function(){
-
-  $('#subjectForm').validate({
+$(document).ready(function () {
+	$('#classSubjectForm').validate({
 		rules: {
-			subjectName: {
+			classSubjectName: {
 				required: true,
 			},
 		},
 		messages: {
-			subjectName: {
+			classSubjectName: {
 				required: 'Field is not empty',
 			},
 		},
 	});
 
+	$('#classSubjectForm').submit(function (e) {
+		e.preventDefault();
 
+		let valid = $('#classSubjectForm').valid();
+		let form = document.getElementById('classSubjectForm');
 
-  $('#subjectForm').submit(function(e){
-    e.preventDefault();
-    
-    let valid = $('#subjectForm').valid()
-    let form = document.getElementById('subjectForm');
+		if (valid === true) {
+			let formData = new FormData(form);
+			let data = {};
 
-    if(valid === true){
-        let formData = new FormData(form);
-				let data = {};
+			for (let pair of formData.entries()) {
+				data[pair[0]] = pair[1];
+			}
 
-				for (let pair of formData.entries()) {
-					data[pair[0]] = pair[1];
-				}
-				
-
-			if(localStorage.getItem('modify') === 'true'){
-				httpJSONReq('modifySubject', data, (res) => {
+			if (localStorage.getItem('modify') === 'true') {
+				httpJSONReq('modifyclassSubject', data, (res) => {
 					if (res.success) {
 						localStorage.removeItem('modify');
 						location.href = '?page=dashboard';
@@ -210,9 +189,8 @@ $(document).ready(function(){
 						});
 					}
 				});
-			}
-			else{
-				httpJSONReq('addSubject', data, (res) => {
+			} else {
+				httpJSONReq('addclassSubject', data, (res) => {
 					if (res.success) {
 						localStorage.removeItem('modify');
 						location.href = '?page=dashboard';
@@ -227,18 +205,8 @@ $(document).ready(function(){
 					}
 				});
 			}
-
-    }
-    else{
-      console.log('forbidden response')
-    }
-
-
-
-  });
-
-
-})
-
-
-
+		} else {
+			console.log('forbidden response');
+		}
+	});
+});

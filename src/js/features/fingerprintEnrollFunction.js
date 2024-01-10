@@ -5,7 +5,7 @@ const fingerprintNoTesult = 'fingerprintNoResult';
 
 
 document.addEventListener('DOMContentLoaded', function () {
-	showPage(fingerprintTable, fingerprintNoResult);
+	showPage(fingerprintTable, fingerprintNoTesult);
 });
 
 

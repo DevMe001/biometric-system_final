@@ -63,9 +63,9 @@ $yearLvl = $controller->getYearLevel();
                     </label>
    </div>
     <!-- print -->
-     <!-- <div>
+  <div>
       <button id='print' class='btn outline outline-offset-2 outline-1  hover:bg-blue-500 hover:text-white px-5 py-2 text-indigo-400 rounded'>Print</button>
-    </div> -->
+    </div> 
 
      <div id='onModalYearToggle' data-modal-target="addYearLevel-modal" data-modal-toggle="addYearLevel-modal" class="rounded-full bg-[#19397D] text-white w-[50px] h-[50px] text-center align-middle">
         <button class='text-center py-3 font-bold text-md'>+</button>
@@ -247,7 +247,7 @@ $yearLvl = $controller->getYearLevel();
             </button>
             <div class="px-6 py-6 lg:px-8">
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white"><span id='yrTitle'>Create</span> new year level</h3>
-                <form id='yearLevelForm' class="space-y-6" >
+                <form id='yearLevelForm' class="space-y-6" novalidate>
                   <input type="hidden" name='yrId'  id='yrId' data-editable=''>
                     <div>
                         <label for="yrName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Year Name</label>
