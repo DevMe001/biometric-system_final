@@ -165,7 +165,7 @@
                                           <?php echo $rec['ref_number'] ?>
                                         </td>
                                         <td class='p-2'>
-                                          <?php echo strtoupper($rec['id']) ?>
+                                          <?php echo strtoupper($rec['lrn']) ?>
                                         </td>
                   
                                           <td >
